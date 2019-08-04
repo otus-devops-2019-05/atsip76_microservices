@@ -1,0 +1,15 @@
+---
+- hosts: all
+  vars_files:
+    - "vars.yml"
+  tasks:
+  - name: login dockerhub
+    docker_login:
+      username: "{{ user }}"
+      password: "{{ password }}"
+  - name: start container
+    docker_container:
+      name: reddit
+      image: atsip/otus-reddit:1.0
+      ports:
+        - "80:9292"

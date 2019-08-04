@@ -1,0 +1,22 @@
+---
+- hosts: nodocker
+  become: true
+  tasks:
+  - name: Update all packages to the latest version
+    apt:
+      upgrade: dist
+
+  - name: Install docker
+    apt:
+      name: docker.io
+      state: present
+
+  - name: install docker-py
+    pip:
+      name: docker-py
+
+  - name: Add the user appuser to group docker
+    user:
+        name: appuser
+        append: yes
+        group: docker
