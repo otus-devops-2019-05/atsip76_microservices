@@ -1,0 +1,43 @@
+{
+    "variables": {
+        "project_id": "docker-248509",
+        "zone": "europe-west1-b",
+        "source_image_family": "ubuntu-1604-lts",
+        "machine_type": "f1-micro",
+        "image_family": "docker-base",
+        "ssh_username": "appuser"
+    },
+    "builders": [
+        {
+            "type": "googlecompute",
+            "project_id": "{{ user `project_id` }}",
+            "image_name": "docker-base-{{timestamp}}",
+            "image_family": "{{ user `image_family` }}",
+            "disk_type": "pd-ssd",
+            "disk_size": "10",
+            "network": "default",
+            "tags": "docker-app",
+            "image_description": "Packer reddit-docker image",
+            "source_image_family": "{{ user `source_image_family` }}",
+            "zone": "{{ user `zone` }}",
+            "ssh_username": "{{ user `ssh_username` }}",
+            "machine_type": "{{ user `machine_type` }}"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "sudo apt -y update",
+                "sudo apt install -y docker.io",
+                "sudo apt install -y python-pip",
+                "pip install docker-py",
+                "sudo systemctl start docker",
+                "sudo systemctl enable docker",
+                "sudo usermod -aG docker appuser",
+                "sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose",
+                "sudo chmod +x /usr/local/bin/docker-compose"
+            ]
+        }
+    ]
+}
