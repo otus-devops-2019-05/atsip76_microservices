@@ -18,7 +18,7 @@ resource "google_compute_instance" "docker" {
 
   boot_disk {
     initialize_params {
-      image = "${var.app_disk_image}"
+      image = "${var.disk_image}"
     }
   }
 
