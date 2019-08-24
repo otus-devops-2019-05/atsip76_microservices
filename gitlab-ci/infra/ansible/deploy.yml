@@ -1,6 +1,24 @@
 ---
 - hosts: all
+  become: true
   tasks:
+    - name: update Docker-compose file
+      lineinfile:
+        path: /srv/gitlab/docker-compose.yml
+        regexp: '\<YOUR-VM-IP\>'
+        line: "      external_url 'http://{{ ansible_host }}'"
+        backrefs: yes
+
+    - name: install docker-py
+      pip:
+        name: docker-py
+
+    - name: Install docker-compose
+      apt:
+        name: docker-compose=1.8.*
+        state: present
+        update_cache: yes
+
     - name: Create and start services
       docker_compose:
         project_src: /srv/gitlab
