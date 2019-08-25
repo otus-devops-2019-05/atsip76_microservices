@@ -1,0 +1,13 @@
+{
+    "_meta": {
+        "hostvars": {
+      ${all_hosts}
+     }
+    },
+    "docker": {
+        "hosts": ${docker_host_names}
+    },
+    "nodocker": {
+        "hosts": ${nodocker_hosts_names}
+    }
+}

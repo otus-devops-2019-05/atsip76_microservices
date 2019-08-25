@@ -1,0 +1,33 @@
+{
+    "variables": {
+        "project_id": "docker-248509",
+        "zone": "europe-west1-b",
+        "source_image_family": "ubuntu-1604-lts",
+        "machine_type": "n1-standard-1",
+        "image_family": "docker-gitlab",
+        "ssh_username": "appuser"
+    },
+    "builders": [
+        {
+            "type": "googlecompute",
+            "project_id": "{{ user `project_id` }}",
+            "image_name": "no-docker-gitlab-{{timestamp}}",
+            "image_family": "{{ user `image_family` }}",
+            "disk_type": "pd-ssd",
+            "disk_size": "10",
+            "network": "default",
+            "tags": "docker-gitlab",
+            "image_description": "Packer gitlab-docker image",
+            "source_image_family": "{{ user `source_image_family` }}",
+            "zone": "{{ user `zone` }}",
+            "ssh_username": "{{ user `ssh_username` }}",
+            "machine_type": "{{ user `machine_type` }}"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "ansible",
+            "playbook_file": "../ansible/main.yml"
+        }
+    ]
+}
