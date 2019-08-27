@@ -20,6 +20,7 @@
 - Добавил экспортер ssalaues/mongodb-exporter для мониторинга mongodb
 - Добавил экспортер atsip/blackbox-exporter
 - Добавил экспортер atsip/cloudprober
+- Добавил Makefile для сборки и деплоя образов в docker-registry
 
 # HW15
 ## GitLab CI

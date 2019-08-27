@@ -10,20 +10,17 @@ services:
           - post_db
           - comment_d
   ui:
-#    build: ./ui
     image: ${USERNAME}/ui
     ports:
       - ${PORT}:9292/tcp
     networks:
       - front_net
   post:
-#    build: ./post-py
     image: ${USERNAME}/post
     networks:
       - back_net
       - front_net
   comment:
-#    build: ./comment
     image: ${USERNAME}/comment
     networks:
       - back_net
