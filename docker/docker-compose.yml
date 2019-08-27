@@ -66,13 +66,13 @@ services:
      - back_net
 
   blackbox-exporter:
-    image: ${USER_NAME}/blackbox-exporter
+    image: ${USERNAME}/blackbox-exporter
     command: '--config.file=/config/blackbox.yml'
     networks:
       - front_net
 
   cloudprober-exporter:
-    image: ${USER_NAME}/cloudprober
+    image: ${USERNAME}/cloudprober
     command: '--config_file /etc/cloudprober.cfg'
     networks:
       - front_net
