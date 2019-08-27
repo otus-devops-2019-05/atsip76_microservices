@@ -11,20 +11,20 @@ services:
           - comment_d
   ui:
 #    build: ./ui
-    image: ${USERNAME}/ui:${VER_UI}
+    image: ${USERNAME}/ui
     ports:
       - ${PORT}:9292/tcp
     networks:
       - front_net
   post:
 #    build: ./post-py
-    image: ${USERNAME}/post:${VER_POST}
+    image: ${USERNAME}/post
     networks:
       - back_net
       - front_net
   comment:
-    build: ./comment
-    image: ${USERNAME}/comment:${VER_COMMENT}
+#    build: ./comment
+    image: ${USERNAME}/comment
     networks:
       - back_net
       - front_net
@@ -42,6 +42,41 @@ services:
     networks:
       - back_net
       - front_net
+
+  node-exporter:
+    image: prom/node-exporter:v0.15.2
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+    networks:
+      - back_net
+      - front_net
+
+  mongodb-exporter:
+    image: ssalaues/mongodb-exporter
+    environment:
+     - MONGODB_URI=mongodb://post_db:27017
+    networks:
+     - back_net
+
+  blackbox-exporter:
+    image: ${USER_NAME}/blackbox-exporter
+    command: '--config.file=/config/blackbox.yml'
+    networks:
+      - front_net
+
+  cloudprober-exporter:
+    image: ${USER_NAME}/cloudprober
+    command: '--config_file /etc/cloudprober.cfg'
+    networks:
+      - front_net
+
 
 volumes:
   post_db:

@@ -2,6 +2,25 @@
 
 # atsip76 microservices repository
 
+#HW16
+## Monitoring-1
+
+- Редактируем компоус файл docker/docker-compose.yml добавляя сервис прометея и шарим сети
+- Редактируем .env (в моем случае сменил порт ui с 80 на 9292)
+- Удаляем все старые контейнеры docker-compose down
+- Удаляем сети docker network prune
+- Поднимаем сервисы docker/docker-compose.yml
+- Проверяем работу прометея
+- Проверяем работу приложения, эмулируем падение зависимых микросервисов, мониторим графики жизни приложений
+- Настраиваем экспортер node_exporter
+- Проверяем мониторинг под нагрузкой
+- Пушим образы в репозиторий https://hub.docker.com/u/atsip
+
+### Task*
+- Добавил экспортер ssalaues/mongodb-exporter для мониторинга mongodb
+- Добавил экспортер atsip/blackbox-exporter
+- Добавил экспортер atsip/cloudprober
+
 # HW15
 ## GitLab CI
 
