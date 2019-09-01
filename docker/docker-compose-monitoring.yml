@@ -84,7 +84,6 @@ services:
       - 3000:3000
     networks:
       - back_net
-      - front_net
 
 volumes:
   prometheus_data:
@@ -92,14 +91,4 @@ volumes:
 
 networks:
   back_net:
-    driver: bridge
-#    ipam:
-#      driver: default
-#      config:
-#      - subnet: 10.0.2.0/24
   front_net:
-    driver: bridge
-#    ipam:
-#      driver: default
-#      config:
-#      - subnet: 10.0.1.0/24
