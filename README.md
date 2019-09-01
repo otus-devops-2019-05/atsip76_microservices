@@ -5,19 +5,32 @@
 #HW17
 ## Monitoring-2
 
-- Редактируем компоус файл docker/docker-compose.yml добавляя сервис прометея и шарим сети
-- Редактируем .env (в моем случае сменил порт ui с 80 на 9292)
-- Удаляем все старые контейнеры docker-compose down
-- Удаляем сети docker network prune
-- Поднимаем сервисы docker/docker-compose.yml
-- Проверяем работу прометея
-- Проверяем работу приложения, эмулируем падение зависимых микросервисов, мониторим графики жизни приложений
-- Настраиваем экспортер node_exporter
-- Проверяем мониторинг под нагрузкой
-- Пушим образы в репозиторий https://hub.docker.com/u/atsip
+- Выделил из файла docker-compose в файл docker-compose-monitoring описание сервисов мониторинга;
+- Добавил описание сервиса cAdvisor в compose-файл, добавил таргет cAdvisor в prometheus.yml;
+- Запустил проект, пощупал интерфейс cAdvisor;
+- Добавил Grafana в compose-файл;
+- Запустил и настроил графану;
+- Скачал с сайта графаны дэшборд с мониторингом докера, импортировал его в графану, сохранил его также в папке monitoring/grafana/dashboards;
+- Добавил в prometheus.yml таргет posr с метриками приложения;
+- Перезапустил мониторинги, добавил несколько постов в приложение и проверил, что метрики post работают;
+- Создал дэшборд UI service monitoring, добавил туда панель UI HTTP Requests с метрикой ui_request_count;
+- Добавил панель Rate of UI HTTP requests with error с метрикой rate(ui_request_count{http_status=~"^[45].*"}[1m]), сгенерировал 400-х ошибок и убедился, что график их отображает;
+- Изменил панель UI HTTP Requests, довив функцию rate к метрике (rate(ui_request_count[5m])), переименовал панель в Rate of UI HTTP Requests;
+- Добавил новую панель HTTP response time 95th percentile с метрикой histogram_quantile(0.95, sum(rate(ui_request_latency_seconds_bucket[5m])) by (le));
+- Соханил дэшборд, экспортировал его и сохранил в папке monitoring/grafana/dashboards;
+- Создал новый дэшборд Business_Logic_Monitoring, добавил на него панель Posts Rate с метрикой rate(post_count[1h]);
+- Добавил панель Comments Rate с метрикой rate(comment_count[1h]), сохранил и экспортировал в папку с дэшбордами;
+- Создал директорию monitoring/alertmanager, а в ней Dockerfile и config.yml;
+- В config.yml описал интеграцию со Slack и маршрут алертинга, собрал образ;
+- Канал Slack для алертов https://app.slack.com/client/T6HR0TUP3/CKA8PH0US
+- Добавил alertmanager в компоуз-файл;
+- Создал в директории прометеус файл alerts.yml, где описал правило алертинга на падение инстансов;
+- Добавил этот файл в Dockerfile, подключил его и описал подклчение к alertmanager в prometheus.yml, пересобрал образы;
+- Перезапустил мониторинги и проверил работу алертов;
+- Пушим образы в репозиторий https://hub.docker.com/u/atsip;
 
 ### Task*
-- Изменил Makefile для сборки и деплоя образов в docker-registry
+- Изменил Makefile для сборки и деплоя образов в docker-registry;
 
 #HW16
 ## Monitoring-1
