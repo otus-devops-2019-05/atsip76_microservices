@@ -9,31 +9,36 @@ help:
 login: ## Login to docker hub
 	docker login -u $(REGISTRY) -p $(DOCKER_PASSWORD)
 
-build-all : ui post coment prometheus blackbox-exporter cloudprober-exporter push-images ## Создание и push всех контейнеров
+build-all : ui post comment prometheus alertmanager blackbox-exporter cloudprober-exporter ## Создание и push всех контейнеров
 
 ui: ## Создание docker-образа для контейнера ui
-	docker build -f $(APP_SRC)/ui/Dockerfile -t $(REGISTRY):ui $(APP_SRC)/ui
+	docker build -f $(APP_SRC)/ui/Dockerfile -t $(REGISTRY)/ui $(APP_SRC)/ui
 
 post: ## Создание  docker-образа для контейнера post
-	docker build -f $(APP_SRC)/post-py/Dockerfile -t $(REGISTRY):post-py $(APP_SRC)/post-py
+	docker build -f $(APP_SRC)/post-py/Dockerfile -t $(REGISTRY)/post $(APP_SRC)/post-py
 
 comment: ## Создание docker-образа для контейнера comment
-	docker build -f $(APP_SRC)/comment/Dockerfile -t $(REGISTRY):comment $(APP_SRC)/comment
+	docker build -f $(APP_SRC)/comment/Dockerfile -t $(REGISTRY)/comment $(APP_SRC)/comment
+#/bin/bash $(APP_SRC)/comment/docker_build.sh
 
 prometheus: ## Создание docker-образа для контейнера prometheus
-	docker build -f $(MONI)/prometheus/Dockerfile -t $(REGISTRY):prometheus $(MONI)/prometheus
+	docker build -f $(MONI)/prometheus/Dockerfile -t $(REGISTRY)/prometheus $(MONI)/prometheus
+
+alertmanager: ## Создание docker-образа для контейнера alertmanager
+	docker build -f $(MONI)/alertmanager/Dockerfile -t $(REGISTRY)/alertmanager $(MONI)/alertmanager
 
 blackbox-exporter: ## Создание docker-образа для контейнера blackbox-exporter
-	docker build -f $(MONI)/blackbox-exporter/Dockerfile -t $(REGISTRY):blackbox-exporter $(MONI)/blackbox-exporter
+	docker build -f $(MONI)/blackbox-exporter/Dockerfile -t $(REGISTRY)/blackbox-exporter $(MONI)/blackbox-exporter
 
 cloudprober-exporter: ## Создание docker-образа для контейнера cloudprober-exporter
-	docker build -f $(MONI)/cloudprober/Dockerfile -t $(REGISTRY):cloudprober $(MONI)/cloudprober
+	docker build -f $(MONI)/cloudprober/Dockerfile -t $(REGISTRY)/cloudprober $(MONI)/cloudprober
 
 push-images: ## Пуш созданных docker-образов в docker-registry
 	docker push $(REGISTRY)/ui
 	docker push $(REGISTRY)/post
 	docker push $(REGISTRY)/comment
 	docker push $(REGISTRY)/prometheus
+	docker push $(REGISTRY)/alertmanager
 	docker push $(REGISTRY)/blackbox-exporter
 	docker push $(REGISTRY)/cloudprober
 
