@@ -13,7 +13,7 @@ services:
 
   ui:
 #    container_name: ui
-    image: ${USER_NAME}/ui
+    image: ${USER_NAME}/ui:bug
     environment:
         - POST_SERVICE_HOST=post
         - POST_SERVICE_PORT=5000
@@ -33,7 +33,7 @@ services:
       - front_net
 
   post:
-    image: ${USER_NAME}/post
+    image: ${USER_NAME}/post:bug
     environment:
       - POST_DATABASE_HOST=post_db
       - POST_DATABASE=posts
@@ -52,7 +52,7 @@ services:
       - front_net
 
   comment:
-    image: ${USER_NAME}/comment
+    image: ${USER_NAME}/comment:bug
     environment:
       - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     networks:

@@ -7,9 +7,16 @@ help:
   @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
 
 login: ## Login to docker hub
-	docker login -u $(REGISTRY) -p $(DOCKER_PASSWORD)
+	docker login -u $(REGISTRY) --password-stdin $(DOCKER_PASSWORD)
 
-build-all : ui post comment prometheus alertmanager blackbox-exporter cloudprober-exporter ## Создание и push всех контейнеров
+build-app: ui post comment
+
+build-monit: prometheus alertmanager blackbox-exporter cloudprober-exporter
+
+build-log: fluentd
+
+fluentd:
+	docker build -f logging/fluentd/Dockerfile -t $(REGISTRY)/fluentd logging/fluentd
 
 ui: ## Создание docker-образа для контейнера ui
 	docker build -f $(APP_SRC)/ui/Dockerfile -t $(REGISTRY)/ui $(APP_SRC)/ui
@@ -37,12 +44,13 @@ push-images: ## Пуш созданных docker-образов в docker-regist
 	docker push $(REGISTRY)/ui
 	docker push $(REGISTRY)/post
 	docker push $(REGISTRY)/comment
-	docker push $(REGISTRY)/prometheus
-	docker push $(REGISTRY)/alertmanager
-	docker push $(REGISTRY)/blackbox-exporter
-	docker push $(REGISTRY)/cloudprober
+#	docker push $(REGISTRY)/prometheus
+#	docker push $(REGISTRY)/alertmanager
+#	docker push $(REGISTRY)/blackbox-exporter
+#	docker push $(REGISTRY)/cloudprober
+	docker push $(REGISTRY)/fluentd
 
-deploy: build-all login push-images ###Сборка и пуш всех образов
+deploy: build-app build-log push-images ###Сборка и пуш всех образов
 
 ####################################################################################################
 # Управление контейнерами с помощью docker-compose (dc)

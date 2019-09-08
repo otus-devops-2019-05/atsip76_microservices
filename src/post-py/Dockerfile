@@ -1,5 +1,5 @@
 FROM python:3.6.0-alpine
-RUN apk add --update gcc python python-dev py-pip build-base
+RUN apk add --update gcc musl-dev python python-dev py-pip build-base
 
 WORKDIR /app
 ADD . /app
