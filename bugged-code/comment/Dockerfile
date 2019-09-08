@@ -1,4 +1,3 @@
-#atsip/comment       2.0                 697fbb0c5eb4        2 minutes ago       267MB
 FROM ruby:2.2
 
 RUN apt-get update -qq && apt-get install -y build-essential
@@ -11,8 +10,5 @@ ADD Gemfile* $APP_HOME/
 RUN bundle install
 
 ADD . $APP_HOME
-
-ENV COMMENT_DATABASE_HOST comment_db
-ENV COMMENT_DATABASE comment
 
 CMD ["puma"]
