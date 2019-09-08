@@ -1,6 +1,6 @@
 #atsip/ui            2.0                 dc30bd952773        4 minutes ago       269MB
-FROM ruby:2.3.3
-RUN apt-get update -qq && apt-get install -y build-essential
+FROM ruby:alpine
+RUN apk add --update ruby-dev build-base
 
 ENV APP_HOME /app
 RUN mkdir $APP_HOME
