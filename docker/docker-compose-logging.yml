@@ -6,8 +6,8 @@ services:
       - "24224:24224"
       - "24224:24224/udp"
     networks:
-      back_net:
-      front_net:
+     - back_net
+
 
   elasticsearch:
     image: elasticsearch:7.3.1
@@ -20,14 +20,14 @@ services:
       transport.host: localhost
       network.host: 0.0.0.0
     networks:
-      back_net:
+     - back_net
 
   kibana:
     image: kibana:7.3.1
     ports:
       - "5601:5601"
     networks:
-      back_net:
+     - back_net
 
   zipkin:
     image: openzipkin/zipkin
