@@ -38,10 +38,6 @@ services:
       - POST_DATABASE_HOST=post_db
       - POST_DATABASE=posts
       - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
-    depends_on:
-      - post_db
-    ports:
-      - "5000:5000"
     logging:
       driver: "fluentd"
       options:
@@ -55,6 +51,8 @@ services:
     image: ${USER_NAME}/comment:latest
     environment:
       - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
+      - COMMENT_DATABASE_HOST=comment_db
+      - COMMENT_DATABASE=comment
     networks:
       - back_net
       - front_net
