@@ -24,6 +24,11 @@ services:
         - "9292:9292/tcp"
     depends_on:
         - post
+    healthcheck:
+      test: curl -sS http://127.0.0.1:9292 || exit 1
+      interval: 20s
+      timeout: 3s
+      retries: 1
     logging:
       driver: "fluentd"
       options:
