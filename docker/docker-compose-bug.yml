@@ -13,7 +13,7 @@ services:
 
   ui:
 #    container_name: ui
-    image: ${USER_NAME}/ui:latest
+    image: ${USER_NAME}/ui:bug
     environment:
         - POST_SERVICE_HOST=post
         - POST_SERVICE_PORT=5000
@@ -21,14 +21,9 @@ services:
         - COMMENT_SERVICE_PORT=9292
         - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     ports:
-        - "9292:9292/tcp"
+        - "9292:9292"
     depends_on:
         - post
-    healthcheck:
-      test: curl -sS http://127.0.0.1:9292 || exit 1
-      interval: 20s
-      timeout: 3s
-      retries: 1
     logging:
       driver: "fluentd"
       options:
@@ -38,11 +33,15 @@ services:
       - front_net
 
   post:
-    image: ${USER_NAME}/post:latest
+    image: ${USER_NAME}/post:bug
     environment:
       - POST_DATABASE_HOST=post_db
       - POST_DATABASE=posts
       - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
+    depends_on:
+      - post_db
+    ports:
+      - "5000:5000"
     logging:
       driver: "fluentd"
       options:
@@ -53,11 +52,9 @@ services:
       - front_net
 
   comment:
-    image: ${USER_NAME}/comment:latest
+    image: ${USER_NAME}/comment:bug
     environment:
       - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
-      - COMMENT_DATABASE_HOST=comment_db
-      - COMMENT_DATABASE=comment
     networks:
       - back_net
       - front_net
