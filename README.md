@@ -2,6 +2,15 @@
 
 # atsip76 microservices repository
 
+# HW19
+## Kubernetes-1
+
+- Описал манифесты сервисов reddit в директории kubernetes/reddit;
+- Прошел The Hard Way, все созданные в ходе прохождения файлы сохранил в kubernetes/the_hard_way;
+- Проверил, что kubectl apply -f (ui, post, mongo, comment) работает и поды создаются;
+- Удалил кластер
+
+
 # HW18
 ## Loging-1
 
