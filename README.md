@@ -2,6 +2,39 @@
 
 # atsip76 microservices repository
 
+# HW20
+## Kubernetes-2
+
+- Установил и запустил minikube;
+- Проверил, что нода создалась;
+- Изучил файл конфига ~/.kube/config и порядок настройки kubectl;
+- Изменил файл деплоймента ui, запустил ui в кластере;
+- Пробросил порт 9292 пода ui на порт 8080 моей машины, перешел на localhost:8080 и проверил, что страница ui открывается;
+- Обновил деплойменты comment, post и mongo, в mongo дополнительно примонтировал раздел;
+- Описал сервисы comment-service.yml, post-service.yml и mongodb-service.yml, запустил их;
+- Создал ui-service.yml с добавлением типа сервиса type: NodePort и указанием статичного порта;
+- Запустил minikube service ui, открылось ссылка приложения;
+- Нашел все запущенные компоненты аддона dashboard командой kubectl get all -n kube-system --selector app=kubernetes-dashboard;
+- Зашел в дэшборд и ознакомился с его функциональностью;
+- Создал и применил dev-namespace.yml, запустил приложение в неймспейсе dev;
+- Зашел в консоль GKE и создал кластер с указанными параметрами;
+- Создал dev неймспейс и развернул в нем приложение;
+- Создал правило фаервола для ui;
+- Зашел по адресу ноды и порту на сервис ui;
+- Скриншот лежит в директории reddit;
+- Включил панель управления Kubernetes для кластера;
+- Выполнил kubectl proxy и перешел по ссылке http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/, вместо описанной в ДЗ нерабочей http://localhost:8001/ui;
+- Получил ошибку RBAC;
+- Назначил роль cluster-admin сервис-аккаунту дэшборда командой kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard;
+- Т.к. используется инструментальная панель версии младше 1.10 пришлось добавить --enable-skip-login к аргументам командной строки развертывания kubectl edit deployment/kubernetes-dashboard --namespace=kube-system;
+- После этого появился батон SKIP на странице входа для доступа к панели инструментов;
+- Перешел снова в панель у правления и убедился, что она работает;
+
+### Task*
+- Создал директорию kubernetes/terraform, описал параметры создания кластера в файле main.tf по примеру из документации терраформ;
+- Для создания манифеста сервис-аккауна панели управления использовал команду kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin -serviceaccount=kube-system:kubernetes-dashboard с параметром -o yaml, дял вывода описания создаваемого объекта в yaml формате;
+- Вывод сохранил в файле kubernetes-dashboard-rolebind.yml
+
 # HW19
 ## Kubernetes-1
 
