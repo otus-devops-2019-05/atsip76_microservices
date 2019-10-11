@@ -24,6 +24,9 @@
 - Создал описание StorageClass’а и PersistentVolumeClaim с использованием этого класса;
 - Подключил созданный PVC к деплойменту mongo;
 
+### Task*
+- Создал описание секрета в файле tls-secret.yml
+
 # HW20
 ## Kubernetes-2
 
