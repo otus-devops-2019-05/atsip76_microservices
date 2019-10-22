@@ -16,3 +16,4 @@ vault.key
 .pytest_cache
 .vscode
 .env
+Gitlab_ci/
