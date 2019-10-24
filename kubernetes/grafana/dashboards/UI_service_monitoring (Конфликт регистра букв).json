@@ -12,6 +12,7 @@
       }
     ]
   },
+  "description": "all http requests from UI-app",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -42,6 +43,7 @@
       },
       "lines": true,
       "linewidth": 1,
+      "links": [],
       "nullPointMode": "null",
       "percentage": false,
       "pointradius": 5,
@@ -53,18 +55,25 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:1905",
-          "expr": "rate(post_count[1h])",
+          "$$hashKey": "object:1469",
+          "expr": "ui_request_count",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
         },
         {
-          "$$hashKey": "object:1926",
-          "expr": "rate(comment_health[1h])",
+          "$$hashKey": "object:1490",
+          "expr": "rate(ui_request_count{http_status=\"^[45].*\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "B"
+        },
+        {
+          "$$hashKey": "object:1686",
+          "expr": "histogram_quantile(0.95, sum(rate(ui_request_response_time_bucket[5m])) by (le))",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "C"
         }
       ],
       "thresholds": [],
@@ -111,7 +120,7 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -140,7 +149,7 @@
     ]
   },
   "timezone": "",
-  "title": "Business_Logic_Monitoring",
-  "uid": "nSDkutFZk",
-  "version": 2
+  "title": "UI-app HTTP-request",
+  "uid": "ZNNQwtKWz",
+  "version": 5
 }
