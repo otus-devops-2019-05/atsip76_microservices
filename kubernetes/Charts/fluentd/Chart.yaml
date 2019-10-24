@@ -1,0 +1,6 @@
+name: fluentd
+version: 0.1.0
+description: fluentd
+maintainers:
+  - name: Anatoly Afanasyev
+    email: atsip76@gmail.com

@@ -1,0 +1,8 @@
+---
+name: efk
+version: 1.0.0
+description: Elastic Fluentd Kibana stack
+maintainers:
+  - name: Anatoly Afanasyev
+    email: atsip76@gmail.com
+appVersion: 1.0
