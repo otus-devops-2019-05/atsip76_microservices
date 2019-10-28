@@ -2,6 +2,33 @@
 
 # atsip76 microservices repository
 
+# HW23
+## Kubernetes-5
+
+* Установил ingress-контроллер nginx из helm-чарта;
+* Добавил /etc/hosts имена хостов по адресу Ingress;
+* Создал custom_values.yml;
+* Установил Prometheus;
+* Включил в конфиге kube-state-metrics, обновил релиз;
+* Включил node-exporter, обновил релиз;
+* Провеоил метрики;
+* Запустил relise reddit-test, production и staging;
+* Обновил конфиг, добавив джоб reddit-endpoints, обновил релиз;
+* Добавил метки k8s и prometheus;
+* Добавил джоб reddit-production, обновил релиз;
+* Разбил джоб reddit-endpoints на джобы по эндпойнтам ui, post и comment;
+* Поставил grafana через helm;
+* Добавил датасорс прометеуса, загрузил дэшборд кубернетиса;
+* Добавил дэшборды, ранее созданные в предыдущих ДЗ по логированию;
+* Добавил на дэшборд UI_service_monitoring переменую namespace;
+* Все используемые в рамках этого ДЗ дэшборды сохранил в `kubernetes/grafana/dashboards`;
+* Выполнил задание со *;
+* Создал директорию kubernetes/efk/, создал манифесты, применил;
+* Установил кибану через helm, настроил;
+* Выполнил задание со **.
+
+
+
 # HW22
 ## Kubernetes-4
 
